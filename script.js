@@ -1,3 +1,4 @@
+// Executed on page load
 function setupListeners() {
   // Setup functional buttons
   const functionalButtons = document.querySelectorAll(".functional");
@@ -47,6 +48,7 @@ function clear() {
 }
 
 function doBackspace() {
+  // Acts as AC if no input
   if (!input) {
     clear();
     return;
@@ -78,7 +80,9 @@ function handleOperation(operation) {
   const operand = isInputNull() ? 0 : parseFloat(input);
   switch (currentOperation) {
     case "=":
-      result = operand;
+      if (input) {
+        result = operand;
+      }
       break;
     case "+":
       result += operand;
@@ -101,21 +105,17 @@ function handleOperation(operation) {
 }
 
 function handleDigit(digit) {
-  // Start a new calculation series
-  if (currentOperation === "=") {
-    result = 0;
-  }
-
   // Check for input edge cases
   if (
-    !fitsDisplay(input + digit) || 
+    !fitsDisplay(input + digit) ||
     (digit === "0" && isInputNull()) ||
     (digit === "." && input.includes("."))
   ) {
+    displayInput();
     return;
   }
 
-  // If input represents 0 then add explicitly
+  // If input represents 0 then add it explicitly
   if (digit === "." && isInputNull()) {
     input += "0";
   }
@@ -125,16 +125,28 @@ function handleDigit(digit) {
   displayInput();
 }
 
+function displayInput() {
+  if (!input) {
+    display.textContent = "0";
+  } else if (input === "-") {
+    display.textContent = "-0";
+  } else {
+    display.textContent = input;
+  }
+}
+
 function displayResult() {
   // Handle division by 0
   if (!isFinite(result) || isNaN(result)) {
     displayError();
+    return;
   }
 
   const textResult = result.toString();
   if (fitsDisplay(textResult)) {
     display.textContent = textResult;
   } else if (textResult.includes(".")) {
+    // Try to round a float to fit the display
     const spaceLeft = MAX_DIGITS - textResult.split(".")[0].length - 1;
     if (spaceLeft > 0) {
       display.textContent = result.toFixed(spaceLeft);
@@ -149,16 +161,6 @@ function displayResult() {
 function displayError() {
   display.textContent = "ERROR";
   result = 0;
-}
-
-function displayInput() {
-  if (!input) {
-    display.textContent = "0";
-  } else if (input === "-") {
-    display.textContent = "-0";
-  } else {
-    display.textContent = input;
-  }
 }
 
 // Checks if a number fits a display
