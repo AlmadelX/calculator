@@ -10,6 +10,20 @@ function setupListeners() {
   // Setup digit buttons
   const digitButtons = document.querySelectorAll(".digit");
   digitButtons.forEach(button => button.addEventListener("click", () => handleDigit(button.textContent)));
+
+  // Setup keyboard
+  document.addEventListener('keydown', e => {
+    e.preventDefault();
+    if (e.key === "Backspace") {
+      doBackspace();
+    } else if (e.key === "Enter") {
+      handleOperation("=");
+    } else if (["=", "+", "-", "*", "/"].includes(e.key)) {
+      handleOperation(e.key);
+    } else if (!isNaN(parseInt(e.key))) {
+      handleDigit(e.key);
+    }
+  });
 }
 
 function handleFunction(button) {
@@ -33,6 +47,11 @@ function clear() {
 }
 
 function doBackspace() {
+  if (!input) {
+    clear();
+    return;
+  }
+
   // Handle edge case "[+-]0."
   if (input.slice(-2) === "0.") {
     input = input.slice(0, -2);
