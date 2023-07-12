@@ -89,7 +89,7 @@ function handleDigit(digit) {
 
   // Check for input edge cases
   if (
-    isInputMax() || 
+    !fitsDisplay(input + digit) || 
     (digit === "0" && isInputNull()) ||
     (digit === "." && input.includes("."))
   ) {
@@ -107,8 +107,29 @@ function handleDigit(digit) {
 }
 
 function displayResult() {
-  console.log(result);
-  display.textContent = result;
+  // Handle division by 0
+  if (!isFinite(result) || isNaN(result)) {
+    displayError();
+  }
+
+  const textResult = result.toString();
+  if (fitsDisplay(textResult)) {
+    display.textContent = textResult;
+  } else if (textResult.includes(".")) {
+    const spaceLeft = MAX_DIGITS - textResult.split(".")[0].length - 1;
+    if (spaceLeft > 0) {
+      display.textContent = result.toFixed(spaceLeft);
+    } else {
+      displayError();
+    }
+  } else {
+    displayError();
+  }
+}
+
+function displayError() {
+  display.textContent = "ERROR";
+  result = 0;
 }
 
 function displayInput() {
@@ -121,8 +142,16 @@ function displayInput() {
   }
 }
 
-function isInputMax() {
-  return input && ((input[0] === "-" && input.length === MAX_DIGITS + 1) || (input[0] !== "-" && input.length === MAX_DIGITS));
+// Checks if a number fits a display
+function fitsDisplay(number) {
+  if (!number) {
+    return true;
+  }
+
+  if (number[0] == "-") {
+    return number.length <= MAX_DIGITS + 1;
+  }
+  return number.length <= MAX_DIGITS;
 }
 
 function isInputNull() {
