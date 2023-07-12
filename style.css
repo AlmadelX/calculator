@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400&display=swap');
+
 * {
-  font-family: "Courier New", Courier, monospace;
+  font-family: 'Inconsolata', monospace;
 }
 
 html, body, .container {
@@ -22,11 +24,12 @@ body, h1, p {
   width: 400px;
   aspect-ratio: 4 / 6;
   padding: 16px;
-  border-radius: 8px;
+  border-radius: 16px;
   background-color: black;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-shadow: 0 0 16px black;
 }
 
 .display {
@@ -54,18 +57,18 @@ body, h1, p {
   border-radius: 8px;
   border: 0;
   padding: 0;
-  font-size: 24px;
+  font-size: 40px;
   cursor: pointer;
 }
 
 .functional {
-  background-color: darkorange;
+  background-color: sandybrown;
 }
 
 .operation {
-  background-color: darkcyan;
+  background-color: #60F4A4;
 }
 
 .digit {
-  background-color: darkblue;
+  background-color: #A460F4;
 }
