@@ -3,6 +3,10 @@ function setupListeners() {
   const functionalButtons = document.querySelectorAll(".functional");
   functionalButtons.forEach(button => button.addEventListener("click", () => handleFunction(button.textContent)));
 
+  // Setup operation buttons
+  const operationButtons = document.querySelectorAll(".operation");
+  operationButtons.forEach(button => button.addEventListener("click", () => handleOperation(button.textContent)));
+
   // Setup digit buttons
   const digitButtons = document.querySelectorAll(".digit");
   digitButtons.forEach(button => button.addEventListener("click", () => handleDigit(button.textContent)));
@@ -22,6 +26,8 @@ function handleFunction(button) {
 }
 
 function clear() {
+  result = 0;
+  currentOperation = "=";
   input = "";
   displayInput();
 }
@@ -48,7 +54,39 @@ function changeSign() {
   displayInput();
 }
 
+function handleOperation(operation) {
+  // Calculate the previous operation and display the result
+  const operand = isInputNull() ? 0 : parseFloat(input);
+  switch (currentOperation) {
+    case "=":
+      result = operand;
+      break;
+    case "+":
+      result += operand;
+      break;
+    case "-":
+      result -= operand;
+      break;
+    case "*":
+      result *= operand;
+      break;
+    case "/":
+      result /= operand;
+  }
+  displayResult();
+
+  // Set the new operation
+  currentOperation = operation;
+  // Clear the input
+  input = "";
+}
+
 function handleDigit(digit) {
+  // Start a new calculation series
+  if (currentOperation === "=") {
+    result = 0;
+  }
+
   // Check for input edge cases
   if (
     isInputMax() || 
@@ -66,6 +104,11 @@ function handleDigit(digit) {
   // Update input
   input += digit;
   displayInput();
+}
+
+function displayResult() {
+  console.log(result);
+  display.textContent = result;
 }
 
 function displayInput() {
@@ -88,6 +131,9 @@ function isInputNull() {
 
 const MAX_DIGITS = 7;
 
+// Global variables
+let result = 0;
+let currentOperation = "=";
 let input = "";
 
 const display = document.querySelector(".display p");
