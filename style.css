@@ -1,0 +1,71 @@
+* {
+  font-family: "Courier New", Courier, monospace;
+}
+
+html, body, .container {
+  height: 100%;
+}
+
+body, h1, p {
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.calculator {
+  width: 400px;
+  aspect-ratio: 4 / 6;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.display {
+  flex: 1;
+  border-radius: 8px;
+  background-color: #BBB;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.display p {
+  margin: 0 16px;
+  font-size: 80px;
+}
+
+.buttons, .button-group {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+}
+
+.buttons button {
+  flex: 1;
+  border-radius: 8px;
+  border: 0;
+  padding: 0;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.functional {
+  background-color: darkorange;
+}
+
+.operation {
+  background-color: darkcyan;
+}
+
+.digit {
+  background-color: darkblue;
+}
