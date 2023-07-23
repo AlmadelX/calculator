@@ -1,8 +1,17 @@
-# calculator
-*Project for practicing web development.*
+# Calculator
+
+_Browser calculator._
+
+## Description
+
+Browser calculator with simple and nice UI.
+
+Features:
+
+- Basic math operations (addition, subtraction, multiplication, division)
+- Mouse and keyboard input
+
+## This project demonstrates
 
 - CSS Flexbox
-- JavaScript
-
-## Functionality
-The calculator supports basic mathematical operations (+, -, *, /). Both UI and keyboard are supported as input.
+- JavaScript DOM manipulation
